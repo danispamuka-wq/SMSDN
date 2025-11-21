@@ -14,6 +14,44 @@ st.set_page_config(
     layout="centered"
 )
 
+# --- SECURITY: Simple Login System ---
+def check_password():
+    """Returns `True` if the user had the correct password."""
+
+    def password_entered():
+        """Checks whether a password entered by the user is correct."""
+        if st.session_state["password"] == st.secrets["general"]["app_password"]:
+            st.session_state["password_correct"] = True
+            del st.session_state["password"]  # Don't store the password
+        else:
+            st.session_state["password_correct"] = False
+
+    # Jika belum login, minta password
+    if "password_correct" not in st.session_state:
+        st.text_input(
+            "🔒 Masukkan Password Aplikasi:", type="password", on_change=password_entered, key="password"
+        )
+        st.stop() # Stop, jangan lanjut ke bawah jika belum login
+        return False
+    
+    # Jika password salah
+    elif not st.session_state["password_correct"]:
+        st.text_input(
+            "🔒 Masukkan Password Aplikasi:", type="password", on_change=password_entered, key="password"
+        )
+        st.error("❌ Password salah.")
+        st.stop()
+        return False
+    
+    # Jika benar
+    else:
+        return True
+
+if not check_password():
+    st.stop()
+
+# --- JIKA LOGIN SUKSES, BARU JALANKAN KODE DI BAWAH INI ---
+
 # --- Helper Functions ---
 def extract_sheet_id(url):
     """Extracts the Google Sheet ID from a full URL."""
@@ -35,6 +73,10 @@ def get_gspread_client():
 # --- UI Layout ---
 st.title("📱 SMS Campaign Dashboard")
 st.markdown("**Role:** Senior Admin | **Goal:** Send bulk SMS via Twilio & Google Sheets")
+# Logout Button (Optional Hack)
+if st.button("Log Out"):
+    del st.session_state["password_correct"]
+    st.rerun()
 st.divider()
 
 # --- Step 1: Load Data ---
