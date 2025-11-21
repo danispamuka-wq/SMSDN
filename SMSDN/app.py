@@ -75,9 +75,13 @@ if sheet_url:
 
                 # --- Step 3: Compose Message ---
                 st.header("3️⃣ Compose Message")
-                message_body = st.text_area("Type your SMS content:", height=150, max_chars=1600)
+                # UPDATED: max_chars set to 160 for standard SMS limit
+                message_body = st.text_area("Type your SMS content (Max 160 chars):", height=150, max_chars=160)
+                
+                # Real-time character counter logic is handled by Streamlit's max_chars automatically
+                # but we can show remaining explicitly if needed
                 char_count = len(message_body)
-                st.caption(f"Character count: {char_count}")
+                st.caption(f"Characters used: {char_count}/160")
 
                 # Cost Estimator
                 estimated_cost = row_count * 0.03
