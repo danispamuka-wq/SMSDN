@@ -1,0 +1,30 @@
+# .streamlit/secrets.toml
+
+# -------------------------------------------------------------------------
+# INSTRUCTIONS:
+# 1. Create a file named 'secrets.toml' inside a folder named '.streamlit'
+#    in your project root (if running locally).
+# 2. If deploying to Streamlit Cloud, go to App Settings -> Secrets and
+#    paste the content below.
+# 3. IMPORTANT: You must share your Google Sheet with the 'client_email'
+#    address listed in the [gcp_service_account] section.
+# -------------------------------------------------------------------------
+
+[twilio]
+account_sid = "ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+auth_token = "your_twilio_auth_token"
+from_number = "+15551234567"
+
+[gcp_service_account]
+# Copy the contents of your Google Service Account JSON file here.
+# Ensure keys are unquoted if they are simple strings, or follow TOML syntax.
+type = "service_account"
+project_id = "your-project-id"
+private_key_id = "your-private-key-id"
+private_key = "-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----\n"
+client_email = "your-service-account-email@your-project.iam.gserviceaccount.com"
+client_id = "123456789"
+auth_uri = "https://accounts.google.com/o/oauth2/auth"
+token_uri = "https://oauth2.googleapis.com/token"
+auth_provider_x509_cert_url = "https://www.googleapis.com/oauth2/v1/certs"
+client_x509_cert_url = "https://www.googleapis.com/robot/v1/metadata/x509/your-email"
